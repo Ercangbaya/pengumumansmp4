@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pengumuman Kelulusan SMPN 4 Liliriaja</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 450px;
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    h2, h3 {
+      margin: 10px 0;
+      color: #333;
+    }
+
+    input[type="text"] {
+      padding: 12px;
+      width: 100%;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background-color: #009688;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #00796B;
+    }
+
+    .result {
+      margin-top: 30px;
+      font-size: 18px;
+      padding: 20px;
+      border-radius: 12px;
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .pass {
+      background-color: #C8E6C9;
+      color: #2E7D32;
+    }
+
+    .fail {
+      background-color: #FFCDD2;
+      color: #C62828;
+    }
+
+    .not-found {
+      background-color: #FFE082;
+      color: #E65100;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Pengumuman Kelulusan</h2>
+    <h3>SMPN 4 Liliriaja</h3>
+    <p>Tahun Ajaran 2024/2025</p>
+
+    <input type="text" id="nisn" placeholder="Masukkan NISN Anda" />
+    <button onclick="cekKelulusan()">Cek Kelulusan</button>
+
+    <div id="hasil" class="result"></div>
+  </div>
+
+  <script>
+    const dataSiswa = {
+      "0091501565": { nama: "A. TIMANG SARTIKA", status: "LULUS" },
+      "0096052902": { nama: "Ahmad Fuadhy", status: "LULUS" },
+      "0089205176": { nama: "ARDIANSYAH", status: "LULUS" },
+      "0098379788": { nama: "ASSIFA ZENO BIYYA", status: "LULUS" },
+      "0103703033": { nama: "CINDY ALISA MEILIANTY", status: "LULUS" },
+      "0098209131": { nama: "DINIHARTI", status: "LULUS" },
+      "0099781819": { nama: "EGA", status: "LULUS" },
+      "0096256879": { nama: "HAUZAN AQIL FALAH", status: "LULUS" },
+      "0093587302": { nama: "HUMAERAH", status: "LULUS" },
+      "0108823167": { nama: "IKRAM", status: "LULUS" },
+      "0094251290": { nama: "MARSHELLA", status: "LULUS" },
+      "0097538474": { nama: "MUH. ERFAN", status: "LULUS" },
+      "0104223105": { nama: "MUH. RAIHAN", status: "LULUS" },
+      "0101566883": { nama: "MUH. RIFKY", status: "LULUS" },
+      "0097927532": { nama: "MUHAMMAD FIKRI", status: "LULUS" },
+      "0098296655": { nama: "NUR ASISA", status: "LULUS" },
+      "0092960879": { nama: "NURUL FAUZIAH. B.S", status: "LULUS" },
+      "0099443984": { nama: "REPI MARISKA", status: "LULUS" },
+      "0097669045": { nama: "RESKY RAMADANI", status: "LULUS" },
+      "0092601338": { nama: "RISKA RAMADANI", status: "LULUS" },
+      "0094241456": { nama: "SARDI FIRMANSYAH", status: "LULUS" },
+      "0095889486": { nama: "SRI AINI RAMADANI", status: "LULUS" },
+      "0102211780": { nama: "AHMAD SAPUTRA", status: "LULUS" },
+      "0084970129": { nama: "AIDIL DUIH SAPUTRA", status: "LULUS" },
+      "0091821118": { nama: "ALFIAN ALFAREZA", status: "LULUS" },
+      "0105215183": { nama: "AUREL", status: "LULUS" },
+      "0095504359": { nama: "KURNIAWAN", status: "LULUS" },
+      "0102639108": { nama: "MUH.NASRIL", status: "LULUS" },
+      "0094372759": { nama: "MUHAMMAD ULIL AMRI", status: "LULUS" },
+      "0101997371": { nama: "NUR FAKHRIYYAH FAUZIYYAH", status: "LULUS" },
+      "0092729801": { nama: "NUR SYAFIRAH", status: "LULUS" },
+      "0092186412": { nama: "NUR ZULAIQA", status: "LULUS" },
+      "0101926050": { nama: "PUTRI SHERIL MAHERA", status: "LULUS" },
+      "3085625661": { nama: "RESKY ADITYA", status: "LULUS" },
+      "0093834081": { nama: "SERLY", status: "LULUS" },
+      "0099448865": { nama: "SHERLA AGUSTINA", status: "LULUS" },
+      "0102440244": { nama: "SRI AMANDA", status: "LULUS" },
+      "0109688814": { nama: "ST. SAFITRI", status: "LULUS" },
+      "0099544854": { nama: "SUCI RAMDHANI", status: "LULUS" },
+      "0104492746": { nama: "SYIFA AZZAHRA MUHTAR", status: "LULUS" },
+      "0091572667": { nama: "ZALZABILAH MAHADIVA", status: "LULUS" },
+      "0109759151": { nama: "ZASKIA", status: "LULUS" },
+      "0097435231": { nama: "ZASKIA RAMADANI", status: "LULUS" },
+      "0034567892": { nama: "Citra Dewi", status: "TIDAK LULUS" },
+      "0034567893": { nama: "Dewi Maharani", status: "LULUS" }
+      // Tambahkan data lainnya di sini
+    };
+
+    function cekKelulusan() {
+      const nisn = document.getElementById("nisn").value.trim();
+      const hasil = document.getElementById("hasil");
+
+      if (dataSiswa[nisn]) {
+        const siswa = dataSiswa[nisn];
+        hasil.style.display = "block";
+        hasil.className = "result " + (siswa.status === "LULUS" ? "pass" : "fail");
+        hasil.innerHTML = `
+          <p>Nama: <strong>${siswa.nama}</strong></p>
+          <p>Status Kelulusan: <strong>${siswa.status}</strong></p>
+        `;
+      } else {
+        hasil.style.display = "block";
+        hasil.className = "result not-found";
+        hasil.innerHTML = "NISN tidak ditemukan. Silakan periksa kembali.";
+      }
+    }
+  </script>
+
+</body>
+</html>
